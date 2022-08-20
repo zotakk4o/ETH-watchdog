@@ -1,0 +1,22 @@
+{
+  "name": "eth-watchdog",
+  "version": "1.0.0",
+  "description": "L",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zotakk4o/ETH-watchdog.git"
+  },
+  "author": "LB",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zotakk4o/ETH-watchdog/issues"
+  },
+  "homepage": "https://github.com/zotakk4o/ETH-watchdog#readme",
+  "dependencies": {
+    "web3": "^1.7.5"
+  }
+}
