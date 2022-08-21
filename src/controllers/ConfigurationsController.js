@@ -1,7 +1,7 @@
 const BaseController = require('./BaseController');
 
 class ConfigurationsController extends BaseController{
-    constructor(requestValidator, configurationsValidationSchema) {
+    constructor(requestValidator, configurationsValidationSchema, configuration) {
         super(requestValidator, configurationsValidationSchema);
     }
 
