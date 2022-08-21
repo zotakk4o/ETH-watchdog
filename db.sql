@@ -1,0 +1,1 @@
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `eth_watchdog` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
