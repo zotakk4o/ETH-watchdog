@@ -6,23 +6,23 @@ const routingConfig = require('../configs/routing');
 class BaseController {
     #validationSchema;
     #validator;
+    #service;
+    #supportedActions;
 
-    constructor(validator, validationSchema) {
+    constructor(validator, validationSchema, service, supportedActions = []) {
         this.#validator = validator;
         this.#validationSchema = validationSchema;
+        this.#service = service;
+        this.#supportedActions = supportedActions;
     }
 
     execute(req, res, next) {
         let method = BaseController.#getRequestMethod(req.method, req.params);
-        if (!method) {
+        if (!method || this.#supportedActions.indexOf(method) === -1) {
             next(new Error(generalErrors.ACTION_NOT_SUPPORTED))
         }
 
-        let data = {
-            data: !isObjectEmpty(req.body) ? req.body : undefined,
-            key: req.params[routingConfig.ID_PARAM_NAME],
-            query: !isObjectEmpty(req.query) ? req.query : undefined
-        };
+        let data = BaseController.#getRequestData(req);
 
         if (!this.#validator.isValid(this.#validationSchema[method], data)) {
             return next(new Error(this.#validator.getLastError()));
@@ -31,6 +31,23 @@ class BaseController {
         this[method](data)
             .then(response => res.status(httpCodes.OK).json(response))
             .catch(error => next(error))
+    }
+
+    static #getRequestData(req) {
+        let data = {};
+        if (!isObjectEmpty(req.body)) {
+            data.data = req.body;
+        }
+
+        if (req.params[routingConfig.ID_PARAM_NAME]) {
+            data.key = req.params[routingConfig.ID_PARAM_NAME];
+        }
+
+        if (!isObjectEmpty(req.query)) {
+            data.query = req.query;
+        }
+
+        return data;
     }
 
     static #getRequestMethod(method, params) {
@@ -42,23 +59,23 @@ class BaseController {
     }
 
     index(data) {
-        throw new Error(generalErrors.ACTION_NOT_SUPPORTED);
+        return this.#service.findAllEntities(data.query);
     }
 
     show(data) {
-        throw new Error(generalErrors.ACTION_NOT_SUPPORTED);
+        return this.#service.findEntityByPK(data.key);
     }
 
     store(data) {
-        throw new Error(generalErrors.ACTION_NOT_SUPPORTED);
+        return this.#service.createEntity(data.data);
     }
 
     update(data) {
-        throw new Error(generalErrors.ACTION_NOT_SUPPORTED);
+        return this.#service.updateEntityByPk(data.data, data.key);
     }
 
     destroy(data) {
-        throw new Error(generalErrors.ACTION_NOT_SUPPORTED);
+        return this.#service.deleteEntityByPk(data.key);
     }
 }
 

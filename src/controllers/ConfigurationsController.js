@@ -1,24 +1,18 @@
 const BaseController = require('./BaseController');
 
 class ConfigurationsController extends BaseController{
-    constructor(requestValidator, configurationsValidationSchema, configuration) {
-        super(requestValidator, configurationsValidationSchema);
+    constructor(requestValidator, configurationsValidationSchema, configurationsService, controllersConfig) {
+        super(
+            requestValidator,
+            configurationsValidationSchema,
+            configurationsService,
+            controllersConfig.ConfigurationsController
+        );
     }
 
-    index(data) {
-        return Promise.resolve(data);
-    }
-
-    show(data) {
-        return Promise.resolve(data);
-    }
-
-    store(data) {
-        return Promise.resolve(data);
-    }
-
-    destroy(data) {
-        return Promise.resolve(data);
+    update(data) {
+        let updateData = {isActive: true};
+        return this.#service.updateEntityByPk(updateData, data.key);
     }
 }
 

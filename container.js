@@ -12,8 +12,7 @@ const configurationsValidationSchema = require('./src/validationSchemas/configur
 const transactionsValidationSchema = require('./src/validationSchemas/transactionsValidationSchema');
 const dbConfig = require('./src/configs/dbConfig');
 const sequelize = require('./src/db/sequelize');
-const Transaction = require('./src/models/Transaction');
-const Configuration = require('./src/models/Configuration');
+const controllersConfig = require('./src/configs/controllersConfig');
 
 const container = awilix.createContainer({
     injectionMode: awilix.InjectionMode.CLASSIC,
@@ -23,7 +22,7 @@ container
     .register({
         server: awilix.asClass(Server, {lifetime: Lifetime.SINGLETON}),
         sequelize: awilix.asValue(sequelize, {lifetime: Lifetime.SINGLETON}),
-        router: awilix.asFunction(router, {lifetime: Lifetime.SINGLETON}).inject((c) => ({ container: c })),
+        router: awilix.asFunction(router, {lifetime: Lifetime.SINGLETON}).inject((c) => ({container: c})),
         config: awilix.asValue(config),
         logger: awilix.asFunction(logger, {lifetime: Lifetime.SINGLETON}),
         app: awilix.asClass(Application, {lifetime: Lifetime.SINGLETON}),
@@ -32,12 +31,24 @@ container
         configurationsValidationSchema: awilix.asValue(configurationsValidationSchema),
         transactionsValidationSchema: awilix.asValue(transactionsValidationSchema),
         dbConfig: awilix.asValue(dbConfig),
-        transaction: awilix.asFunction(Transaction, {lifetime: Lifetime.SINGLETON}),
-        configuration: awilix.asFunction(Configuration, {lifetime: Lifetime.SINGLETON})
+        controllersConfig: awilix.asValue(controllersConfig)
     });
 
 container.loadModules([
-        './src/controllers/*.js',
+        './src/models/*.js',
+    ], {
+        formatName: 'camelCase',
+        resolverOptions: {
+            register: awilix.asFunction,
+            lifetime: Lifetime.SINGLETON
+        }
+    }
+);
+
+container.loadModules([
+    './src/controllers/*.js',
+    './src/services/*.js',
+    './src/repositories/*.js'
     ], {
         formatName: 'camelCase',
         resolverOptions: {
@@ -45,7 +56,6 @@ container.loadModules([
         }
     }
 );
-
 
 
 module.exports = container;

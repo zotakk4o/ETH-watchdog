@@ -10,7 +10,7 @@ module.exports = (logger, errorHandler, container) => {
     let configurationsMiddlewares = [configurationsController.execute.bind(configurationsController)];
 
     let transactionsController = container.resolve('transactionsController');
-    let transactionsMiddlewares = [configurationsController.execute.bind(transactionsController)];
+    let transactionsMiddlewares = [transactionsController.execute.bind(transactionsController)];
 
     apiRouter.route('/configurations')
         .get(configurationsMiddlewares)
@@ -20,15 +20,18 @@ module.exports = (logger, errorHandler, container) => {
         .get(configurationsMiddlewares)
         .delete(configurationsMiddlewares);
 
-    apiRouter.route('/transactions')
+    apiRouter.route('/configurations/setActive/:' + routingConfig.ID_PARAM_NAME)
+        .put(configurationsMiddlewares);
+
+    apiRouter.route('/transactions/:' + routingConfig.ID_PARAM_NAME)
         .get(transactionsMiddlewares);
 
     router.use(json());
     router.use('/', apiRouter);
 
-    // router.all('*', function(req, res, next){
-    //     next(new Error(generalErrors.ROUTE_NOT_SUPPORTED))
-    // });
+    router.all('*', function(req, res, next){
+        next(new Error(generalErrors.ROUTE_NOT_SUPPORTED))
+    });
 
     router.use(errorHandler);
 

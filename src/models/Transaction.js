@@ -4,7 +4,6 @@ module.exports = (sequelize) => {
     return sequelize.define('Transaction', {
         hash: {
             type: DataTypes.STRING,
-            allowNull: false,
             primaryKey: true
         },
         nonce: DataTypes.INTEGER,
@@ -14,7 +13,7 @@ module.exports = (sequelize) => {
         from: DataTypes.STRING,
         to: DataTypes.STRING,
         value: DataTypes.DECIMAL,
-        gas: DataTypes.INTEGER,
+        gas: DataTypes.DECIMAL,
         gasPrice: DataTypes.BIGINT,
         input: DataTypes.STRING,
         configName: {

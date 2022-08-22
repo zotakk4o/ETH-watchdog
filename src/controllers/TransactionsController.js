@@ -1,12 +1,13 @@
 const BaseController = require('./BaseController');
 
 class TransactionsController extends BaseController{
-    constructor(requestValidator, transactionsValidationSchema, transaction) {
-        super(requestValidator, transactionsValidationSchema);
-    }
-
-    index(data) {
-        return Promise.resolve(data);
+    constructor(requestValidator, transactionsValidationSchema, transactionsService, controllersConfig) {
+        super(
+            requestValidator,
+            transactionsValidationSchema,
+            transactionsService,
+            controllersConfig.TransactionsController
+        );
     }
 }
 

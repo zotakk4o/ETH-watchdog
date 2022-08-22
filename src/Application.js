@@ -1,5 +1,4 @@
 const generalMessages = require('../messages/generalMessages');
-const generalErrors = require('../errors/generalErrors');
 const dbConfig = require('../src/configs/dbConfig');
 
 class Application {
