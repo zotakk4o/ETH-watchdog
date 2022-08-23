@@ -19,6 +19,10 @@ class Server {
         this.#port = config.HTTP_SERVER_PORT;
     }
 
+    /**
+     * Starts the HTTP server for the REST APIs
+     * @returns {Promise}
+     */
     start() {
         return new Promise((resolve, reject) => {
             let that = this;
@@ -32,8 +36,20 @@ class Server {
         });
     }
 
-    stop(done) {
-        this.#server.close(done);
+    /**
+     * Stops the HTTP server for the REST APIs
+     * @returns {Promise}
+     */
+    stop() {
+        return new Promise((resolve, reject) => {
+            this.#server.close(err => {
+                if (err) {
+                    return reject(err);
+                }
+
+                resolve();
+            });
+        })
     }
 }
 

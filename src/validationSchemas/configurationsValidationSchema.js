@@ -4,12 +4,12 @@ const storeProperties = {
     configName: customValidationTypes.configName,
     from: customValidationTypes.hash,
     to: customValidationTypes.hash,
-    valueFrom: {type: "number"},
-    valueTo: {type: "number"},
-    gasFrom: {type: "number"},
-    gasTo:  {type: "number"},
-    gasPriceFrom: {type: "number"},
-    gasPriceTo: {type: "number"}
+    valueFrom: {type: "string"},
+    valueTo: {type: "string"},
+    gasFrom: {type: "integer"},
+    gasTo:  {type: "integer"},
+    gasPriceFrom: {type: "string"},
+    gasPriceTo: {type: "string"}
 };
 const storeRequiredProperties = ['configName'];
 

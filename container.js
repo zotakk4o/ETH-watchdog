@@ -13,6 +13,8 @@ const transactionsValidationSchema = require('./src/validationSchemas/transactio
 const dbConfig = require('./src/configs/dbConfig');
 const sequelize = require('./src/db/sequelize');
 const controllersConfig = require('./src/configs/controllersConfig');
+const web3 = require('./src/watcher/web3');
+const EthWatcher = require('./src/watcher/EthWatcher');
 
 const container = awilix.createContainer({
     injectionMode: awilix.InjectionMode.CLASSIC,
@@ -21,7 +23,8 @@ const container = awilix.createContainer({
 container
     .register({
         server: awilix.asClass(Server, {lifetime: Lifetime.SINGLETON}),
-        sequelize: awilix.asValue(sequelize, {lifetime: Lifetime.SINGLETON}),
+        sequelize: awilix.asFunction(sequelize, {lifetime: Lifetime.SINGLETON}),
+        web3: awilix.asFunction(web3, {lifetime: Lifetime.SINGLETON}),
         router: awilix.asFunction(router, {lifetime: Lifetime.SINGLETON}).inject((c) => ({container: c})),
         config: awilix.asValue(config),
         logger: awilix.asFunction(logger, {lifetime: Lifetime.SINGLETON}),
@@ -31,7 +34,8 @@ container
         configurationsValidationSchema: awilix.asValue(configurationsValidationSchema),
         transactionsValidationSchema: awilix.asValue(transactionsValidationSchema),
         dbConfig: awilix.asValue(dbConfig),
-        controllersConfig: awilix.asValue(controllersConfig)
+        controllersConfig: awilix.asValue(controllersConfig),
+        ethWatcher: awilix.asClass(EthWatcher, {lifetime: Lifetime.SINGLETON})
     });
 
 container.loadModules([

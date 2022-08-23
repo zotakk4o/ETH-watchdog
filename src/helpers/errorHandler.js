@@ -6,7 +6,7 @@ module.exports = (logger) => {
             error: err.message,
         };
 
-        logger.error(error);
+        logger.error(JSON.stringify(error));
         res.status(httpCodes.BAD_REQUEST).json(error);
     };
 };

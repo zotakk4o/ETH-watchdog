@@ -8,15 +8,15 @@ module.exports = (sequelize) => {
         },
         from: DataTypes.STRING,
         to: DataTypes.STRING,
-        valueFrom: DataTypes.DECIMAL,
-        valueTo: DataTypes.DECIMAL,
-        gasFrom: DataTypes.DECIMAL,
-        gasTo:  DataTypes.DECIMAL,
-        gasPriceFrom: DataTypes.DECIMAL,
-        gasPriceTo: DataTypes.DECIMAL,
+        valueFrom: DataTypes.STRING,
+        valueTo: DataTypes.STRING,
+        gasFrom: DataTypes.BIGINT,
+        gasTo:  DataTypes.BIGINT,
+        gasPriceFrom: DataTypes.STRING,
+        gasPriceTo: DataTypes.STRING,
         isActive: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         }
-    });
+    }, {createdAt: false, updatedAt: false});
 };

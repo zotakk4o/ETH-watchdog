@@ -9,19 +9,18 @@ module.exports = (sequelize) => {
         nonce: DataTypes.INTEGER,
         blockHash: DataTypes.STRING,
         blockNumber: DataTypes.INTEGER,
-        transactionIndex: DataTypes.INTEGER,
         from: DataTypes.STRING,
         to: DataTypes.STRING,
-        value: DataTypes.DECIMAL,
-        gas: DataTypes.DECIMAL,
-        gasPrice: DataTypes.BIGINT,
-        input: DataTypes.STRING,
+        value: DataTypes.STRING,
+        gas: DataTypes.BIGINT,
+        gasPrice: DataTypes.STRING,
         configName: {
             type: DataTypes.STRING,
             references: {
                 model: 'Configurations',
                 key: 'configName'
-            }
+            },
+            defaultValue: false
         }
-    });
+    }, {createdAt: false, updatedAt: false});
 };

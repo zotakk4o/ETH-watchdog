@@ -23,6 +23,9 @@ module.exports = (logger, errorHandler, container) => {
     apiRouter.route('/configurations/setActive/:' + routingConfig.ID_PARAM_NAME)
         .put(configurationsMiddlewares);
 
+    apiRouter.route('/transactions')
+        .get(transactionsMiddlewares);
+
     apiRouter.route('/transactions/:' + routingConfig.ID_PARAM_NAME)
         .get(transactionsMiddlewares);
 
